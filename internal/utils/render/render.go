@@ -7,9 +7,9 @@ import (
 	"net/http"
 )
 
-func RenderAsJSON() {}
+func Struct2Responce() {}
 
-func JSON(r *http.Request, v any) error {
+func Request2Struct(r *http.Request, v any) error {
 	const op = "utils.render.json"
 	data, err := io.ReadAll(r.Body)
 	if err != nil {

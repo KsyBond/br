@@ -10,34 +10,37 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-type Storage interface {
-	Set(parcel.Parcel)
-	Get(string) parcel.Parcel
+type Databus interface {
+	Set(string, any)
+	Get(string) any
 }
 
-func Get(s Storage) http.HandlerFunc {
+// TODO rm fmt
+func Get(d Databus) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("get")
 		var p parcel.Parcel
-		err := render.JSON(r, p)
+		err := render.Request2Struct(r, &p)
 		if err != nil {
 			log.Err(err)
 		}
-		result := s.Get(p.Reciver)
+		result := d.Get(p.Reciver)
 		data, err := json.Marshal(result)
 		if err != nil {
 			log.Err(err)
 		}
-
 		fmt.Fprintf(w, string(data))
 	})
 }
 
-func Set(s Storage) http.HandlerFunc {
+func Set(d Databus) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("set")
 		var p parcel.Parcel
-		err := render.JSON(r, p)
+		err := render.Request2Struct(r, &p)
 		if err != nil {
 			log.Err(err)
 		}
+		d.Set(p.Reciver, p)
 	})
 }
