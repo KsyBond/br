@@ -3,6 +3,6 @@ package parcel
 type Parcel struct {
 	ID      int    `json:"id,omitempty"`
 	Data    []byte `json:"data"`
-	Sender  string `sender:"sender"`
-	Reciver string `reciver:"reciver"`
+	Sender  string `json:"sender"`
+	Reciver string `json:"reciver"`
 }

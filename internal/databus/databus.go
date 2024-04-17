@@ -20,3 +20,7 @@ func (d *Databus[T]) Get(id string) any {
 	delete(d.b, id)
 	return temp
 }
+
+func (d *Databus[T]) All() any {
+	return d.b
+}
